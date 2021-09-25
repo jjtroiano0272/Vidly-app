@@ -1,21 +1,27 @@
 import React, { Component } from 'react';
 import { getMovie, getMovies } from '../services/fakeMovieService';
+import { getGenres } from '../services/fakeGenreService';
 import { paginate } from '../utils/paginate';
-import Like from './common/like';
+import MoviesTable from './moviesTable';
+import ListGroup from './common/listGroup';
 import Pagination from './common/pagination';
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
-// HOW TO USE FONTAWESOME WITH REACT
-// https://fontawesome.com/v5.15/how-to-use/on-the-web/using-with/react
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faHeart } from '@fortawesome/free-solid-svg-icons';
-// outline when unliked, solid when liked
+import _ from 'lodash';
 
 class Movies extends Component {
   state = {
-    movies: getMovies(),
+    movies: [],
+    genres: [],
+    selectedGenre: '',
     currentPage: 1,
     pageSize: 4,
+    sortColumn: { path: 'title', order: 'asc' },
   };
+
+  componentDidMount() {
+    const genres = [{ _id: '', name: 'All Genres' }, ...getGenres()];
+    this.setState({ movies: getMovies(), genres });
+  }
 
   handleDelete = (movie) => {
     const movies = this.state.movies.filter((m) => m._id !== movie._id);
@@ -34,72 +40,85 @@ class Movies extends Component {
     this.setState({ currentPage: page });
   };
 
+  handleGenreSelect = (genre) => {
+    this.setState({ selectedGenre: genre, currentPage: 1 });
+  };
+
+  handleSort = (sortColumn) => {
+    this.setState({ sortColumn });
+  };
+
+  getPageData = () => {
+    const {
+      pageSize,
+      currentPage,
+      sortColumn,
+      selectedGenre,
+      movies: allMovies,
+    } = this.state;
+
+    // num pages should be based on num selectedmovies
+    // Filter, sort, then paginate
+    const filtered =
+      selectedGenre && selectedGenre._id
+        ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
+        : allMovies;
+    const sorted = _.orderBy(filtered, [sortColumn.path], sortColumn.order);
+    const movies = paginate(sorted, currentPage, pageSize);
+
+    return { totalCount: filtered.length, data: movies };
+  };
+
   render() {
     const { length: moviesCount } = this.state.movies;
-    const { pageSize, currentPage, movies: allMovies } = this.state;
+    const {
+      pageSize,
+      currentPage,
+      sortColumn,
+      selectedGenre,
+      movies: allMovies,
+    } = this.state;
 
-    // TODO: Make ternary
     if (moviesCount === 0) {
-      return (
-        <React.Fragment>
-          <p className='text-muted'>There are no movies!</p>
-        </React.Fragment>
-      );
+      return <p className='text-muted'>There are no movies!</p>;
     }
 
-    const movies = paginate(allMovies, currentPage, pageSize);
+    const { totalCount, data: movies } = this.getPageData();
 
     return (
-      <React.Fragment>
-        <h1>Movies Database</h1>
-        <p className='text-muted'>
-          showing {moviesCount} movies in the database
-        </p>
-        <table className='table'>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Genre</th>
-              <th>Stock</th>
-              <th>Rate</th>
-              <th>{/* Column for like */}</th>
-              <th>{/* Column for delete */}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {movies.map((movie) => (
-              <tr key={movie._id}>
-                <td>{movie.title}</td>
-                <td>{movie.genre.name}</td>
-                <td>{movie.numberInStock}</td>
-                <td>{movie.dailyRentalRate}</td>
-                {/* Like button */}
-                <td>
-                  <Like
-                    liked={movie.liked}
-                    onClick={() => this.handleLike(movie)}
-                  />
-                </td>
-                {/* Delete button */}
-                <td>
-                  <button
-                    className='btn btn-danger btn-sm'
-                    onClick={() => this.handleDelete(movie)}
-                  >
-                    <FontAwesomeIcon icon={faTrash} />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <Pagination
-          itemsCount={moviesCount}
-          pageSize={pageSize}
-          onPageChange={this.handlePageChange}
-          currentPage={currentPage}
-        />
-      </React.Fragment>
+      <div className='row m-4'>
+        <div className='col-3'>
+          <ListGroup
+            className='cursor-pointer'
+            items={this.state.genres}
+            selectedItem={this.state.selectedGenre}
+            onItemSelect={this.handleGenreSelect}
+          />
+        </div>
+        <div className='col'>
+          <h1>Movies Database</h1>
+          <p className='text-muted'>
+            {/* If 'All Genres' is selected it doesn't write the genre. 
+                Otherwise it puts 'Showing {numb} {genre} movies */}
+            Showing {totalCount}{' '}
+            {selectedGenre.name !== 'All Genres' ? selectedGenre.name : ''}{' '}
+            movies in the database
+          </p>
+          <MoviesTable
+            movies={movies}
+            sortColumn={sortColumn}
+            onLike={this.handleLike}
+            onDelete={this.handleDelete}
+            onSort={this.handleSort}
+          />
+          <Pagination
+            itemsCount={totalCount}
+            pageSize={pageSize}
+            onPageChange={this.handlePageChange}
+            currentPage={currentPage}
+          />
+        </div>
+      </div>
     );
   }
 }
