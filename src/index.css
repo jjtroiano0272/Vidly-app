@@ -16,3 +16,10 @@ code {
 .clickable {
   cursor: pointer;
 }
+
+.bg-swoop {
+  background-image: url('./not-my-image-hero-page.svg');
+  background-position-y: 100%;
+  height: auto;
+  width: 100%;
+}

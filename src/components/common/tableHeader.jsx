@@ -44,6 +44,7 @@ class TableHeader extends Component {
             <th
               key={column.path || column.key}
               onClick={() => this.raiseSort(column.path)}
+              scope='col'
               className={column.key === 'delete' ? 'col-4' : 'col-4 clickable'}
             >
               {column.label} {this.renderSortIcon(column)}

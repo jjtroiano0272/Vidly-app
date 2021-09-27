@@ -9,7 +9,7 @@ const ListGroup = ({
   onItemSelect,
 }) => {
   return (
-    <ul className='list-group clickable'>
+    <ul className='list-group cursor-pointer clickable col-xs-12 col-sm-12 mb-3 d-flex'>
       {items.map((item) => (
         <li
           onClick={() => onItemSelect(item)}
