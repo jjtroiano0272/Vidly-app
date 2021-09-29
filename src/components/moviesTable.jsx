@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Like from './common/like';
-import Tasble from './common/table';
 // HOW TO USE FONTAWESOME WITH REACT
 // https://fontawesome.com/v5.15/how-to-use/on-the-web/using-with/react
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,7 +11,13 @@ import Table from './common/table';
 
 class MoviesTable extends Component {
   columns = [
-    { path: 'title', label: 'Title' },
+    {
+      path: 'title',
+      label: 'Title',
+      content: (movie) => (
+        <Link to={`/movies/${movie._id}`}>{movie.title} </Link>
+      ),
+    },
     { path: 'genre.name', label: 'Genre' },
     { path: 'numberInStock', label: 'Stock' },
     { path: 'dailyRentalRate', label: 'Rate' },

@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
+import { Redirect, Route, Switch, Router } from 'react-router-dom';
 import Movies from './components/movies';
 import Counters from './components/counters';
 import NavBar from './components/navbar';
+import Pagination from './components/common/pagination';
+import Customers from './components/customers';
+import Rentals from './components/rentals';
+import NotFound from './components/notFound';
+import MovieForm from './components/movieForm';
+import LoginForm from './components/loginForm';
 import './App.css';
 import 'font-awesome/css/font-awesome.css';
-import Pagination from './components/common/pagination';
-
-// function App() {
-//   return (
-//     <main className='container'>
-//       <h1 className='mt-5'>Content here</h1>
-//       {/* <Movies /> */}
-//       <Counters />
-//     </main>
-//   );
-// }
 
 class App extends Component {
   state = {
@@ -68,20 +64,37 @@ class App extends Component {
   render() {
     console.log('App - rendered');
     return (
-      <React.Fragment>
-        {/* <NavBar
-          totalCounters={this.state.counters.filter((c) => c.value > 0).length}
-        /> */}
-        <main className='container'>
-          {/* <Counters
-            counters={this.state.counters}
-            onReset={this.handleReset}
-            onIncrement={this.handleIncrement}
-            onDecrement={this.handleDecrement}
-            onDelete={this.handleDelete}
-          /> */}
+      // <React.Fragment>
+      //   {/* To render counters app */}
+      //   <NavBar
+      //     totalCounters={this.state.counters.filter((c) => c.value > 0).length}
+      //   />
+      //   <main className='container'>
+      //     <Counters
+      //       counters={this.state.counters}
+      //       onReset={this.handleReset}
+      //       onIncrement={this.handleIncrement}
+      //       onDecrement={this.handleDecrement}
+      //       onDelete={this.handleDelete}
+      //     />
 
-          <Movies />
+      //     <Movies />
+      //   </main>
+      // </React.Fragment>
+
+      <React.Fragment>
+        <NavBar />
+        <main className='container'>
+          <Switch>
+            <Route path='/movies/:id' component={MovieForm}></Route>
+            <Route path='/login' component={LoginForm}></Route>
+            <Route path='/movies' component={Movies}></Route>
+            <Route path='/customers' component={Customers}></Route>
+            <Route path='/rentals' component={Rentals}></Route>
+            <Route path='/not-found' component={NotFound}></Route>
+            <Redirect from='/' exact to='/movies' />
+            <Redirect to='/not-found'></Redirect>
+          </Switch>
         </main>
       </React.Fragment>
     );

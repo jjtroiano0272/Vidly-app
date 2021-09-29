@@ -23,3 +23,11 @@ code {
   height: auto;
   width: 100%;
 }
+
+.navbar {
+  margin-bottom: 2rem;
+}
+
+.o-80 {
+  opacity: 0.8;
+}
