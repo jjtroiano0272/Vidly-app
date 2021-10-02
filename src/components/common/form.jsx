@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { getGenres } from '../../services/fakeGenreService';
 import Joi from 'joi-browser';
 import Input from './input';
+import Dropdown from './dropdown';
 
 class Form extends Component {
   state = {
@@ -75,6 +77,23 @@ class Form extends Component {
         label={label}
         onChange={handleChange}
         error={errors[name]}
+      />
+    );
+  }
+
+  // TODO: This is the one in progress
+  renderDropdown(options, label, name) {
+    const { data, errors } = this.state;
+    const { handleChange, handleSubmit } = this;
+
+    return (
+      <Dropdown
+        label={label}
+        name={name}
+        error={errors[name]}
+        value={data[name]}
+        onChange={handleChange}
+        options={options}
       />
     );
   }

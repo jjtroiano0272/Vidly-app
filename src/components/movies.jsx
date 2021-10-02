@@ -7,6 +7,7 @@ import ListGroup from './common/listGroup';
 import Pagination from './common/pagination';
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import _ from 'lodash';
+import { Link } from 'react-router-dom';
 
 class Movies extends Component {
   state = {
@@ -94,6 +95,10 @@ class Movies extends Component {
         />
         <h1>Movies Database</h1>
         <hr />
+        {/* New Movie button */}
+        <Link className='' to='/movies/new'>
+          <button className='btn btn-primary'>New Movie</button>
+        </Link>
         <p className='text-muted'>
           <small>
             {/* If 'All Genres' is selected it doesn't write the genre.
