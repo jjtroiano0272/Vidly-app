@@ -8,8 +8,6 @@ class RegisterForm extends Form {
     errors: {},
   };
 
-  // Van Halen M&M
-  // Van Halens
   schema = {
     username: Joi.string().required().label('Username'),
     password: Joi.string().required().min(8).label('Password'),
