@@ -12,6 +12,7 @@ class NewMovieForm extends Form {
     genres: [],
   };
 
+  // Van Halen MnMs
   schema = {
     title: Joi.string().required().label('Title'),
     genre: Joi.string().required().label('Genre'),
