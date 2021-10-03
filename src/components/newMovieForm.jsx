@@ -12,7 +12,7 @@ class NewMovieForm extends Form {
     genres: [],
   };
 
-  // Van Halen MnMs
+  // Van Halen MnMs2
   schema = {
     title: Joi.string().required().label('Title'),
     genre: Joi.string().required().label('Genre'),
