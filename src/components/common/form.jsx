@@ -82,18 +82,29 @@ class Form extends Component {
   }
 
   // TODO: This is the one in progress
-  renderDropdown(options, label, name) {
+  renderDropdown(label, name, defaultMessage, items) {
     const { data, errors } = this.state;
     const { handleChange, handleSubmit } = this;
 
     return (
+      // label,
+      // name,
+      // defaultMessage,
+      // items,
+      // textProperty,
+      // valueProperty,
       <Dropdown
         label={label}
         name={name}
-        error={errors[name]}
-        value={data[name]}
+        defaultMessage={defaultMessage}
+        items={items}
+        // options={options}
+        // label={label}
+        // name={name}
+        // defaultMessage={defaultMessage}
+        // error={errors[name]}
+        // value={data[name]}
         onChange={handleChange}
-        options={options}
       />
     );
   }

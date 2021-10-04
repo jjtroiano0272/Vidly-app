@@ -4,6 +4,7 @@ import { getGenres } from '../services/fakeGenreService';
 import { paginate } from '../utils/paginate';
 import MoviesTable from './moviesTable';
 import ListGroup from './common/listGroup';
+import Dropdown from './common/dropdown';
 import Pagination from './common/pagination';
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import _ from 'lodash';
@@ -93,6 +94,11 @@ class Movies extends Component {
           selectedItem={this.state.selectedGenre}
           onItemSelect={this.handleGenreSelect}
         />
+        {/* <Dropdown
+          label={'Pick a genre'}
+          name={'genres'}
+          options={this.state.genres}
+        /> */}
         <h1>Movies Database</h1>
         <hr />
         {/* New Movie button */}

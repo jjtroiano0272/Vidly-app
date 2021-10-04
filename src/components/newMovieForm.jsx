@@ -54,7 +54,12 @@ class NewMovieForm extends Form {
         <h1>Add a movie</h1>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput('title', 'Title')}
-          {this.renderDropdown(['a', 'b', 'c'], 'Genre', 'genre')}
+          {this.renderDropdown(
+            'Genre',
+            'genre',
+            'Select a genre',
+            this.state.genres
+          )}
           {/* {this.renderDropdown(this.state.genres, 'Genre', 'genre')} */}
           {this.renderInput('numInStock', 'Quantity')}
           {this.renderInput('rating', 'Rating')}
