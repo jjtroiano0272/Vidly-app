@@ -4,19 +4,20 @@ import { getGenres } from '../services/fakeGenreService';
 import { paginate } from '../utils/paginate';
 import MoviesTable from './moviesTable';
 import ListGroup from './common/listGroup';
-import Dropdown from './common/dropdown';
 import Pagination from './common/pagination';
-import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
+import '../../node_modules/font-awesome/css/font-awesome.min.css';
+import SearchBox from './common/searchBox';
 
 class Movies extends Component {
   state = {
     movies: [],
     genres: [],
-    selectedGenre: '',
     currentPage: 1,
     pageSize: 4,
+    searchQuery: '',
+    selectedGenre: null,
     sortColumn: { path: 'title', order: 'asc' },
   };
 
@@ -43,11 +44,15 @@ class Movies extends Component {
   };
 
   handleGenreSelect = (genre) => {
-    this.setState({ selectedGenre: genre, currentPage: 1 });
+    this.setState({ selectedGenre: genre, searchQuery: '', currentPage: 1 });
   };
 
   handleSort = (sortColumn) => {
     this.setState({ sortColumn });
+  };
+
+  handleSearch = (query) => {
+    this.setState({ searchQuery: query, selectedGenre: null, currentPage: 1 });
   };
 
   getPageData = () => {
@@ -56,15 +61,20 @@ class Movies extends Component {
       currentPage,
       sortColumn,
       selectedGenre,
+      searchQuery,
       movies: allMovies,
     } = this.state;
 
     // num pages should be based on num selectedmovies
     // Filter, sort, then paginate
-    const filtered =
-      selectedGenre && selectedGenre._id
-        ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
-        : allMovies;
+    let filtered = allMovies;
+    if (searchQuery)
+      filtered = allMovies.filter((m) =>
+        m.title.toLowerCase().startsWith(searchQuery.toLowerCase())
+      );
+    else if (selectedGenre && selectedGenre._id)
+      filtered = allMovies.filter((m) => m.genre._id === selectedGenre._id);
+
     const sorted = _.orderBy(filtered, [sortColumn.path], sortColumn.order);
     const movies = paginate(sorted, currentPage, pageSize);
 
@@ -78,6 +88,7 @@ class Movies extends Component {
       currentPage,
       sortColumn,
       selectedGenre,
+      searchQuery,
       movies: allMovies,
     } = this.state;
 
@@ -94,26 +105,25 @@ class Movies extends Component {
           selectedItem={this.state.selectedGenre}
           onItemSelect={this.handleGenreSelect}
         />
-        {/* <Dropdown
-          label={'Pick a genre'}
-          name={'genres'}
-          options={this.state.genres}
-        /> */}
         <h1>Movies Database</h1>
         <hr />
         {/* New Movie button */}
-        <Link className='' to='/movies/new'>
-          <button className='btn btn-primary'>New Movie</button>
+        <Link to='/movies/new' className='btn btn-primary'>
+          New Movie
         </Link>
         <p className='text-muted'>
           <small>
             {/* If 'All Genres' is selected it doesn't write the genre.
                   Otherwise it puts 'Showing {numb} {genre} movies */}
             Showing {totalCount}{' '}
-            {selectedGenre.name !== 'All Genres' ? selectedGenre.name : ''}{' '}
+            {/* TODO: using 'selectedGenre.name' here breaks the program because it cannot read
+            properties of null. To fix, try refactoring this somehow. Right now I just want it to function. */}
+            {/* {selectedGenre.name !== 'All Genres' ? selectedGenre.name : ''}{' '} */}
             movies in the database
           </small>
         </p>
+
+        <SearchBox value={searchQuery} onChange={this.handleSearch} />
         <MoviesTable
           movies={movies}
           sortColumn={sortColumn}

@@ -15,7 +15,7 @@ const NavBar = () => {
     <Route path='/' exact component={Home} /> */
   }
   return (
-    <nav className='navbar navbar-expand-lg navbar-light bg-light'>
+    <nav className='navbar navbar-expand-lg navbar-light bg-light o-80'>
       {/* <Switch> */}
       <Link className='navbar-brand' to='/'>
         Vidly

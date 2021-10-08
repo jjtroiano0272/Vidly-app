@@ -25,9 +25,6 @@ class NewMovieForm extends Form {
     // const movies = this.state.movies.filter((m) => m._id !== movie._id);
     // const genres = [...getGenres()];
     this.setState({ genres: getGenres() });
-
-    // console.log(genres.forEach(callbackfn));
-    genres.forEach((item) => console.log(item.name));
   }
 
   doSubmit = () => {
@@ -60,7 +57,6 @@ class NewMovieForm extends Form {
             'Select a genre',
             this.state.genres
           )}
-          {/* {this.renderDropdown(this.state.genres, 'Genre', 'genre')} */}
           {this.renderInput('numInStock', 'Quantity')}
           {this.renderInput('rating', 'Rating')}
           {this.renderButton('Submit')}

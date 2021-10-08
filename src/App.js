@@ -64,6 +64,7 @@ class App extends Component {
 
   render() {
     console.log('App - rendered');
+
     return (
       // <React.Fragment>
       //   {/* To render counters app */}

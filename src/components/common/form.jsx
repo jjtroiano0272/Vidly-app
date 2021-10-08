@@ -3,6 +3,7 @@ import { getGenres } from '../../services/fakeGenreService';
 import Joi from 'joi-browser';
 import Input from './input';
 import Dropdown from './dropdown';
+import Select from './select';
 
 class Form extends Component {
   state = {
@@ -65,6 +66,21 @@ class Form extends Component {
     );
   }
 
+  renderSelect(name, label, options) {
+    const { data, errors } = this.state;
+
+    return (
+      <Select
+        name={name}
+        value={data[name]}
+        label={label}
+        options={options}
+        onChange={this.handleChange}
+        error={errors[name]}
+      ></Select>
+    );
+  }
+
   renderInput(name, label, type = 'text') {
     const { data, errors } = this.state;
     const { handleChange, handleSubmit } = this;
@@ -82,28 +98,17 @@ class Form extends Component {
   }
 
   // TODO: This is the one in progress
+  // TODO: Clean up and remove this, since we'll be using .renderSelect instead
   renderDropdown(label, name, defaultMessage, items) {
     const { data, errors } = this.state;
     const { handleChange, handleSubmit } = this;
 
     return (
-      // label,
-      // name,
-      // defaultMessage,
-      // items,
-      // textProperty,
-      // valueProperty,
       <Dropdown
         label={label}
         name={name}
         defaultMessage={defaultMessage}
         items={items}
-        // options={options}
-        // label={label}
-        // name={name}
-        // defaultMessage={defaultMessage}
-        // error={errors[name]}
-        // value={data[name]}
         onChange={handleChange}
       />
     );
