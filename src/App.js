@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect, Route, Switch, Router } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import Counters from './components/counters';
 import Movies from './components/movies';
 import NavBar from './components/navbar';
@@ -12,6 +13,7 @@ import LoginForm from './components/loginForm';
 import RegisterForm from './components/registerForm';
 import './App.css';
 import 'font-awesome/css/font-awesome.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 class App extends Component {
   state = {
@@ -85,6 +87,7 @@ class App extends Component {
       // </React.Fragment>
 
       <React.Fragment>
+        <ToastContainer />
         <NavBar />
         <main className='container'>
           <Switch>

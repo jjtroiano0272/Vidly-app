@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { getGenres } from '../../services/fakeGenreService';
 import Joi from 'joi-browser';
 import Input from './input';
-import Dropdown from './dropdown';
 import Select from './select';
 
 class Form extends Component {
@@ -93,23 +91,6 @@ class Form extends Component {
         label={label}
         onChange={handleChange}
         error={errors[name]}
-      />
-    );
-  }
-
-  // TODO: This is the one in progress
-  // TODO: Clean up and remove this, since we'll be using .renderSelect instead
-  renderDropdown(label, name, defaultMessage, items) {
-    const { data, errors } = this.state;
-    const { handleChange, handleSubmit } = this;
-
-    return (
-      <Dropdown
-        label={label}
-        name={name}
-        defaultMessage={defaultMessage}
-        items={items}
-        onChange={handleChange}
       />
     );
   }

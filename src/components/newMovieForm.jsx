@@ -12,12 +12,23 @@ class NewMovieForm extends Form {
     genres: [],
   };
 
-  // Van Halen MnMs2
+  // prettier-ignore
   schema = {
-    title: Joi.string().required().label('Title'),
-    genre: Joi.string().required().label('Genre'),
-    numInStock: Joi.number().required().min(0).label('Number in Stock'),
-    rating: Joi.number().required().min(0).max(10).label('Rating'),
+    title: Joi.string()
+      .required()
+      .label('Title'),
+    genre: Joi.string()
+      .required()
+      .label('Genre'),
+    numInStock: Joi.number()
+      .required()
+      .min(0)
+      .label('Number in Stock'),
+    rating: Joi.number()
+      .required()
+      .min(0)
+      .max(10)
+      .label('Rating'),
   };
 
   componentDidMount() {
@@ -33,30 +44,15 @@ class NewMovieForm extends Form {
     console.log('New movie submitted!');
   };
 
-  // TODO: Extract this functionality out into Form.jsx
-  handleSubmit = (e) => {
-    e.preventDefault();
-
-    const errors = this.validate();
-    this.setState({ errors: errors || {} });
-
-    if (errors) return;
-
-    this.doSubmit();
-  };
-
   render() {
+    const { genres } = this.state;
+
     return (
       <div className='container col-xs-12 col-lg-6'>
         <h1>Add a movie</h1>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput('title', 'Title')}
-          {this.renderDropdown(
-            'Genre',
-            'genre',
-            'Select a genre',
-            this.state.genres
-          )}
+          {this.renderSelect('genre', 'Genre', genres)}
           {this.renderInput('numInStock', 'Quantity')}
           {this.renderInput('rating', 'Rating')}
           {this.renderButton('Submit')}
