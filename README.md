@@ -9,8 +9,8 @@
 - [ ] Render the Genre Select element as an accordion dropdown list.
 - [ ] Fancy-formatting for Select elements.
 
-## Removal (+)
+## Removal (-)
 
-## Changes/Refactoring (+)
+## Changes/Refactoring (~)
 
 - [ ] SVG backgrounds do not work in safari it seems. Find a way to fix this. This page looks correct in firefox or Chrome but has no BG in Safari.
