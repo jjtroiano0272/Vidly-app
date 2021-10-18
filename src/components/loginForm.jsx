@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Form from './common/form';
 import Joi from 'joi-browser';
-
+import auth from '../services/authService';
 class LoginForm extends Form {
   state = {
     data: { username: '', password: '' },
@@ -10,7 +10,7 @@ class LoginForm extends Form {
 
   schema = {
     username: Joi.string().required().label('Username'),
-    password: Joi.string().required().label('Password'),
+    password: Joi.string().required().min(8).label('Password'),
   };
 
   // Old code
@@ -21,10 +21,20 @@ class LoginForm extends Form {
     // this.username.current.focus();
   }
 
-  doSubmit = () => {
-    // Call the server save changes and redirect user to different page
-    // const username = this.username.current.value;
-    console.log('Submitted');
+  doSubmit = async () => {
+    // prettier-ignore
+    try {
+      const { data } = this.state;
+      await auth.login(data.username, data.password);
+      window.location = '/';
+    } 
+    catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        const errors = { ...this.state.errors };
+        errors.username = ex.response.data;
+        this.setState({ errors });
+      }
+    }
   };
 
   handleSubmit = (e) => {

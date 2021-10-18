@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, NavLink, Route, Switch, Redirect } from 'react-router-dom';
 
-const NavBar = () => {
+const NavBar = ({ user }) => {
   {
     /* for products detail page */
   }
@@ -15,6 +15,7 @@ const NavBar = () => {
     <Route path='/' exact component={Home} /> */
   }
   return (
+    // TODO: Dynamically named opacity class
     <nav className='navbar navbar-expand-lg navbar-light bg-light o-80'>
       {/* <Switch> */}
       <Link className='navbar-brand' to='/'>
@@ -44,12 +45,29 @@ const NavBar = () => {
           <NavLink className='nav-item nav-link' to='/rentals'>
             Rentals
           </NavLink>
-          <NavLink className='nav-item nav-link' to='/login'>
-            Login
-          </NavLink>
-          <NavLink className='nav-item nav-link' to='/register'>
-            Register
-          </NavLink>
+          {/* No user logged in */}
+          {!user && (
+            <React.Fragment>
+              <NavLink className='nav-item nav-link' to='/login'>
+                Login
+              </NavLink>
+              <NavLink className='nav-item nav-link' to='/register'>
+                Register
+              </NavLink>
+            </React.Fragment>
+          )}
+          {/* For when we DO have a user */}
+          {user && (
+            <React.Fragment>
+              <NavLink className='nav-item nav-link' to='/profile'>
+                {/* {user.name} */}
+                My Profile
+              </NavLink>
+              <NavLink className='nav-item nav-link' to='/logout'>
+                Logout
+              </NavLink>
+            </React.Fragment>
+          )}
         </div>
       </div>
       {/* </Switch> */}

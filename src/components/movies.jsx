@@ -105,7 +105,10 @@ class Movies extends Component {
       searchQuery,
       movies: allMovies,
     } = this.state;
+    const { user } = this.props;
 
+    // TODO: Add conditional logic to check status of jwt.
+    // This displays when you're logging out. Not great.
     if (moviesCount === 0) {
       return <p className='text-muted'>There are no movies!</p>;
     }
@@ -119,12 +122,13 @@ class Movies extends Component {
           selectedItem={this.state.selectedGenre}
           onItemSelect={this.handleGenreSelect}
         />
-        <h1>Movies Database</h1>
         <hr />
         {/* New Movie button */}
-        <Link to='/movies/new' className='btn btn-primary'>
-          New Movie
-        </Link>
+        {user && (
+          <Link to='/movies/new' className='btn btn-primary'>
+            New Movie
+          </Link>
+        )}
         <p className='text-muted'>
           <small>
             {/* If 'All Genres' is selected it doesn't write the genre.

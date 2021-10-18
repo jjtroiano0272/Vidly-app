@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Form from './common/form';
 import Joi from 'joi-browser';
+import * as userService from '../services/userService';
+import auth from '../services/authService';
 
 class RegisterForm extends Form {
   state = {
@@ -14,19 +16,11 @@ class RegisterForm extends Form {
     name: Joi.string().required().label('Name'),
   };
 
-  // Old code
-  // username = React.createRef();
-
   componentDidMount() {
     // Focuses on this field as soon as page/component loads
+    // TODO:
     // this.username.current.focus();
   }
-
-  doSubmit = () => {
-    // Call the server save changes and redirect user to different page
-    // const username = this.username.current.value;
-    console.log('Submitted');
-  };
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -37,6 +31,22 @@ class RegisterForm extends Form {
     if (errors) return;
 
     this.doSubmit();
+  };
+
+  // prettier-ignore
+  doSubmit = async () => {
+    try {
+      const response = await userService.register(this.state.data);
+      auth.loginWithJWT(response.headers['x-auth-token']);
+      window.location = '/';
+    } 
+    catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        const errors = { ...this.state.errors };
+        errors.username = ex.response.data;
+        this.setState({ errors });
+      }
+    }
   };
 
   render() {
