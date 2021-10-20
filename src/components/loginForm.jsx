@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import Form from './common/form';
 import Joi from 'joi-browser';
 import auth from '../services/authService';
+
 class LoginForm extends Form {
   state = {
     data: { username: '', password: '' },
@@ -22,13 +24,13 @@ class LoginForm extends Form {
   }
 
   doSubmit = async () => {
-    // prettier-ignore
     try {
       const { data } = this.state;
       await auth.login(data.username, data.password);
-      window.location = '/';
-    } 
-    catch (ex) {
+      const { state } = this.props.location;
+      window.location = state ? state.from.pathname : '/';
+    } catch (ex) {
+      // prettier-ignore
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
         errors.username = ex.response.data;
@@ -48,7 +50,10 @@ class LoginForm extends Form {
     this.doSubmit();
   };
 
+  // prettier-ignore
   render() {
+    if (auth.getCurrentUser()) { return <Redirect to='/' />; }
+
     return (
       <div className='container col-xs-12 col-lg-6'>
         <h1>Login</h1>

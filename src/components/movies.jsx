@@ -10,6 +10,7 @@ import Pagination from './common/pagination';
 import SearchBox from './common/searchBox';
 import _ from 'lodash';
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
+import auth from '../services/authService';
 
 class Movies extends Component {
   state = {
@@ -105,7 +106,6 @@ class Movies extends Component {
       searchQuery,
       movies: allMovies,
     } = this.state;
-    const { user } = this.props;
 
     // TODO: Add conditional logic to check status of jwt.
     // This displays when you're logging out. Not great.
@@ -124,23 +124,19 @@ class Movies extends Component {
         />
         <hr />
         {/* New Movie button */}
-        {user && (
-          <Link to='/movies/new' className='btn btn-primary'>
-            New Movie
-          </Link>
-        )}
+        <Link to='/movies/new' className='btn btn-primary'>
+          New Movie
+        </Link>
         <p className='text-muted'>
           <small>
             {/* If 'All Genres' is selected it doesn't write the genre.
                   Otherwise it puts 'Showing {numb} {genre} movies */}
-            Showing {totalCount}{' '}
             {/* TODO: using 'selectedGenre.name' here breaks the program because it cannot read
             properties of null. To fix, try refactoring this somehow. Right now I just want it to function. */}
             {/* {selectedGenre.name !== 'All Genres' ? selectedGenre.name : ''}{' '} */}
-            movies in the database
+            Showing {totalCount} movies in the database
           </small>
         </p>
-
         <SearchBox value={searchQuery} onChange={this.handleSearch} />
         <MoviesTable
           movies={movies}

@@ -12,6 +12,7 @@ import RegisterForm from './components/registerForm';
 import LoginForm from './components/loginForm';
 import Logout from './components/logout';
 import NotFound from './components/notFound';
+import ProtectedRoute from './components/common/protectedRoute';
 import auth from './services/authService';
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -93,13 +94,7 @@ class App extends Component {
         <main className='container'>
           <Switch>
             {/* <Route path='/movies/new' component={NewMovieForm} /> */}
-            <Route
-              path='/movies/:id'
-              render={(props) => {
-                if (!user) return <Redirect to='/login' />;
-                return <MovieForm {...props} />;
-              }}
-            />
+            <ProtectedRoute path='/movies/:id' component={MovieForm} />
             <Route path='/login' component={LoginForm} />
             <Route path='/logout' component={Logout} />
             <Route
