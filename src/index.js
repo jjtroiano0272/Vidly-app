@@ -10,6 +10,8 @@ import 'font-awesome/css/font-awesome.css';
 import { BrowserRouter } from 'react-router-dom';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+console.log('SUPERMAN', process.env.REACT_APP_NAME);
+
 ReactDOM.render(
   // <React.StrictMode>
   <BrowserRouter>

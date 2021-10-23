@@ -1,8 +1,8 @@
 import http from './httpService';
-import { apiURL } from '../config.json';
 import { getGenres } from './genreService';
+// import { apiURL } from '../config.json';
 
-const apiEndpoint = `${apiURL}/movies`;
+const apiEndpoint = '/movies';
 
 function movieURL(id) {
   return `${apiEndpoint}/${id}`;

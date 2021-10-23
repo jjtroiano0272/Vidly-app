@@ -109,9 +109,9 @@ class Movies extends Component {
 
     // TODO: Add conditional logic to check status of jwt.
     // This displays when you're logging out. Not great.
-    if (moviesCount === 0) {
-      return <p className='text-muted'>There are no movies!</p>;
-    }
+    // if (moviesCount === 0) {
+    //   return <p className='text-muted'>There are no movies!</p>;
+    // }
 
     const { totalCount, data: movies } = this.getPageData();
 
