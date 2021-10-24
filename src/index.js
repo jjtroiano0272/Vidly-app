@@ -1,14 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import './index.css';
+import $ from 'jquery';
 import 'bootstrap/dist/css/bootstrap.css';
 // TODO: May not be necessary...
 import 'bootstrap/dist/js/bootstrap.js';
 import 'font-awesome/css/font-awesome.css';
-import { BrowserRouter } from 'react-router-dom';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 console.log('SUPERMAN', process.env.REACT_APP_NAME);
 

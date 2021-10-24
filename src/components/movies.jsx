@@ -9,8 +9,8 @@ import ListGroup from './common/listGroup';
 import Pagination from './common/pagination';
 import SearchBox from './common/searchBox';
 import _ from 'lodash';
-import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import auth from '../services/authService';
+import '../../node_modules/font-awesome/css/font-awesome.min.css';
 
 class Movies extends Component {
   state = {
