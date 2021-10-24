@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 // TODO: May not be necessary...
-import 'bootstrap/dist/js/bootstrap';
+import 'bootstrap/dist/js/bootstrap.js';
 import 'font-awesome/css/font-awesome.css';
 import { BrowserRouter } from 'react-router-dom';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
